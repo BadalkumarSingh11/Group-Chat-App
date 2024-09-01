@@ -7,9 +7,13 @@ const chatRoutes = require("./Routes/chatRoutes");
 const messageRoutes = require("./Routes/messageRoutes");
 const cors = require("cors");
 
+// CORS middleware
 app.use(
   cors({
-    origin: "*",
+    origin: "*", // Allow all origins
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Allow all methods
+    preflightContinue: false,
+    optionsSuccessStatus: 204, // Handle legacy browsers
   })
 );
 dotenv.config();
@@ -39,6 +43,8 @@ const server = app.listen(PORT, () => {
 const io = require("socket.io")(server, {
   cors: {
     origin: "*",
+    methods: ["GET", "POST"], // Allowed methods for WebSocket
+    credentials: true, // Allow credentials if needed
   },
   pingTimeout: 60000,
 });
